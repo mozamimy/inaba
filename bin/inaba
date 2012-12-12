@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
+require "inaba/manipulator"
+
+inaba_mp = Inaba::Manipulator.new(ARGV)
+exit(-1) if !inaba_mp.ready?
+inaba_mp.run
+

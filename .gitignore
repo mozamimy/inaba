@@ -1,0 +1,4 @@
+pkg/
+doc/
+*.sdb.*
+.DS_Store
