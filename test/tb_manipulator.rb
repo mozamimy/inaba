@@ -3,6 +3,7 @@
 
 require "test/unit"
 require "ariete"
+require "stringio"
 require_relative "../lib/inaba/manipulator"
 
 include Inaba
@@ -71,6 +72,14 @@ class ManipulatorTest < Test::Unit::TestCase
 
   def test_csv_abbr
     csv_common(["s"])
+  end
+
+  def test_help
+    help_common(["help"])
+  end
+
+  def test_help_abbr
+    help_common(["h"])
   end
 
   def test_arg_error
@@ -164,10 +173,29 @@ class ManipulatorTest < Test::Unit::TestCase
     assert_equal("rabbit,RABBIT\r\nhakto,HAKTO\r\ninaba,INABA\r\n", result)
   end
 
+  def help_common(argv)
+    @mnp.instance_variable_set(:@argv, argv)
+    result = capture_stdout {@mnp.run}
+    assert_equal(result, put_help_string)
+  end
+
   def add_some_pair(dbm)
     dbm["rabbit"] = "RABBIT"
     dbm["hakto"] = "HAKTO"
     dbm["inaba"] = "INABA"
+  end
+
+  def put_help_string
+    str_io = StringIO.new
+    str_io.puts "[command]        [description]"
+    str_io.puts "add key value :: Add a key-value pair"
+    str_io.puts "del key       :: Delete value on key"
+    str_io.puts "list          :: Print all key-value pairs"
+    str_io.puts "keys          :: Print all keys"
+    str_io.puts "values        :: Print all values"
+    str_io.puts "csv           :: Print all values as CSV format"
+    str_io.puts "help          :: Print this help"
+    str_io.string
   end
 
 end

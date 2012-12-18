@@ -81,7 +81,7 @@ module Inaba
 
     def print_unrecognizable_error
       warn "**Unrecognizable command '#{@argv[0]}'"
-      operate_help
+      operate_help(nil)
     end
 
     def operate_add(cmd_line)
@@ -114,7 +114,7 @@ module Inaba
       operate(cmd_line, 1) {print @dbm.csv_each}
     end
 
-    def operate_help
+    def operate_help(cmd_line)
       puts "[command]        [description]"
       puts "add key value :: Add a key-value pair"
       puts "del key       :: Delete value on key"
@@ -123,6 +123,7 @@ module Inaba
       puts "values        :: Print all values"
       puts "csv           :: Print all values as CSV format"
       puts "help          :: Print this help"
+      return SUCCESS
     end
 
     def operate(cmd, cmd_length, &block)
